@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="/static/css/style.css">
+{% endblock %}
+{% block container %}
+<div class="container">
+    <h3 style="color: white;font-size: 35px;position:relative;left: 145px;top: 110px;">极力推荐宣传片</h3>
+    <div class="menu_box left" style="margin-left: 60px;margin-top: 150px">
+    <video autoplay="autoplay" style="width: 500px;" src="//f.us.sinaimg.cn/002DZHwGlx07t18LuaB201041200sNlM0E010.mp4?label=mp4_ld&template=640x360.28.0&Expires=1556018588&ssig=4u15dbz2Y1&KID=unistore,video">
+            您的浏览器不支持HTML5
+        </video>
+  </div>
+<div  class="mainbox" >
+
+  <div class="news_box right">
+    <div id="bindData">
+        {% verbatim myblock %}
+
+        <ul class="honeycomb news_list" lang="es" style="margin-left: -100px">
+            <li class="honeycomb-cell" v-for="s in page_data">
+                <a v-on:click="jump(s.id)">
+                    <img class="honeycomb-cell__image" v-bind:src="'/static' + s.picture" >
+                    <div class="honeycomb-cell__title">{{ s.name }}</div>
+                </a>
+            </li>
+        </ul>
+
+            <ul class="pagination" id="page" style="margin-top: 100px">
+
+                  <li v-bind:id=num style="float: left;font-size: 30px;width: 40px;border:1px solid black;text-align: center;background-color:lightsteelblue;border-radius: 5px;" v-for="num in page_range">
+                      <a class="page-link" v-on:click="getPage(num)" style="cursor: pointer;">{{ num }}</a>
+                  </li>
+              </ul>
+{% endverbatim myblock %}
+  </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+{% block footstyle %}
+<script src="/static/js/vue.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.js"></script>
+<script>
+    Vue.use(VueResource);
+    var vue = new Vue({
+        el: "#bindData",
+        data: {
+            page_data: [],
+            page_range: [],
+        },
+        created: function () {
+            var url = "/star_list/";
+            this.$http.get(url).then(
+                function (data) {
+                    this.page_data = data["data"]["data"];
+                    this.page_range = data["data"]["page_range"].split(',')
+                },
+                function (error) {
+                    console.log(error)
+                }
+            )
+        },
+        methods: {
+            getPage: function (page) {
+                var url = "/star_list/?page=" + page;
+                this.$http.get(url).then(
+                    function (data) {
+                        {#未实现默认第一页码变色 #}
+                        var str = "#"+page;
+                        $(str).css("backgroundColor","blue");
+                        $(str).siblings().css("backgroundColor","lightsteelblue");
+                        this.page_data = data["data"]["data"];
+                        this.page_range = data["data"]["page_range"].split(',')
+                    },
+                    function (error) {
+                        console.log(error)
+                    }
+                )
+            },
+            jump: function (id) {
+                url = "/view/" + id;
+                window.location = url
+            }
+        }
+    });
+
+</script>
+{% endblock %}
+

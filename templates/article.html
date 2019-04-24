@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load selftag %}
+{% block style %}
+    <style>
+        .article{
+            font-size: 19px;
+        }
+    </style>
+{% endblock %}
+{% block container %}
+<div  class="mainbox">
+<div class="menu_box left">
+    <h2>新闻详情<span>News Detail</span></h2>
+    <ul class="news_menu">
+      <li><a href="/index/#works">火热明星</a></li>
+      <li><a href="/index/#news">明星新闻</a></li>
+    </ul>
+    <div class="hot_line">
+      <p>欢迎投稿:</p>
+      <span>011-12345678</span> </div>
+  </div>
+  <div class="news_box right">
+    <h2 class="nh1"><span>您现在的位置是：<a href="/" target="_blank">网站首页</a>>><a href="#" target="_blank">新闻中心</a></span><b>新闻详情</b></h2>
+    <div class="f_box">
+      <p class="a_title">{{ article.label }}</p>
+      <p class="p_title">时间: {{ article.date }}</p>
+        <p class="article">{{ article.content|part }}</p>
+    </div>
+      <img style="width: 350px;height: 200px;margin-left: 150px" src="/static/{{ article.picture }}">
+      <p class="article" style="margin-bottom: 50px">{{ article.content }}</p>
+  </div>
+</div>
+{% endblock %}

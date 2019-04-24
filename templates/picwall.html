@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style>
+        .images{
+        width: 960px;
+        margin: 60px 60px 10px 40px;
+        position: absolute;
+        }
+        .pic{
+            width: 160px;
+        }
+
+        .images img:hover{
+            box-shadow: 15px 15px 20px rgba(50,50,50,0.4);
+            transform:rotate(0deg) scale(2.20);
+            -webkit-transform:rotate(0deg) scale(1.20);
+            z-index: 1000;
+        }
+
+        .images img{
+            padding: 10px 10px 15px;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 3px rgba(50,50,50,0.4);
+            -webkit-transition: all 0.5s ease-in;
+            -moz-transition: all 0.5s ease-in;
+            -ms-transition: all 0.5s ease-in;
+            -o-transition: all 0.5s ease-in;
+            transition: all 0.5s ease-in;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .pic1{
+            left: 400px;
+            top: 0;
+            transform:rotate(-5deg);
+            -webkit-transform:rotate(-5deg);
+        }
+
+        .pic2{
+            left: 200px;
+            top: 10px;
+            transform:rotate(-20deg);
+            -webkit-transform:rotate(-20deg);
+        }
+        .pic3{
+            top: 220px;
+            right: 40px;
+            transform:rotate(5deg);
+            -webkit-transform:rotate(5deg);
+        }
+
+        .pic4{
+            top: 100px;
+            left: 300px;
+            transform:rotate(-10deg);
+            -webkit-transform:rotate(-10deg);
+        }
+
+        .pic5{
+
+            top: 20px;
+            right: 150px;
+            transform:rotate(-10deg);
+            -webkit-transform:rotate(-10deg);
+        }
+        .pic6{
+            left: 10px;
+            top: 0;
+            transform:rotate(10deg);
+            -webkit-transform:rotate(10deg);
+        }
+
+        .pic7{
+            left: 850px;
+            top: 0;
+            transform:rotate(20deg);
+            -webkit-transform:rotate(20deg);
+        }
+        .pic8{
+            top: 200px;
+            left: 0;
+            transform:rotate(5deg);
+            -webkit-transform:rotate(5deg);
+        }
+        .pic9{
+            left: 540px;
+            top: 140px;
+            transform:rotate(15deg);
+            -webkit-transform:rotate(15deg);
+        }
+        .pic10{
+            left: 420px;
+            top: 250px;
+            transform:rotate(15deg);
+            -webkit-transform:rotate(15deg);
+        }
+        .pic11{
+            left: 200px;
+            top: 200px;
+            transform:rotate(30deg);
+            -webkit-transform:rotate(45deg);
+        }
+        .images img:hover{
+        box-shadow: 15px 15px 20px rgba(50,50,50,0.4);
+        transform:rotate(0deg) scale(2.20);
+        -webkit-transform:rotate(0deg) scale(2.20);
+    }
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="images">
+    {% for pic in pics %}
+    <img class='pic{{ pic.id }} pic' title={{ pic.star_name }} src="/static/{{ pic.picture }}" onmouseenter="show({{ pic.id }})">
+    {% endfor %}
+        <span style="font-size: 90px;color: white;position: relative;bottom: -300px;left: 1000px" id="name"></span>
+
+</div>
+{% endblock %}
+{% block footer %}
+    <footer style="background: url('/static/images/背景2.jpg')">
+  <div class="endfoot" style="margin-top: 600px">
+    <div class="ft-info left">
+    </div>
+    <div class="ft-list right" id="contact">
+      <div class="ft-shares"> <a class="shares-sina" title="新浪微博" href="#" target="_blank"></a> <a class="shares-ten" title="腾讯微博" href="#" target="_blank"></a> <a class="shares-dib" href="#" target="_blank"></a> </div>
+      <div class="ft-nav"> <a href="#" target="_blank">关于我们</a> <a href="#" target="_blank">联系我们</a> <a href="#" target="_blank">版权声明</a> <a href="#" id="qaurl">问题反馈</a> <a href="#" target="_blank">商务合作</a> </div>
+      <p class="ft-copyright">Copyright 2019 技术支持：<a href="#" target="_blank">XXBBOO科技有限公司</a> <a href="#" target="_blank">晋ICP备8888888号-1</a></p>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+{% block footstyle %}
+    <script>
+        function show(id) {
+            var id = id;
+            $.ajax(
+                {
+                    url:"/show?id="+id,
+                    type:"get",
+                    data:"",
+                    success:function (data) {
+                        $("#name").text(data)
+                    },
+                    error:function (error) {
+                        console.log(error)
+                    }
+
+                }
+            )
+        }
+    </script>
+{% endblock %}

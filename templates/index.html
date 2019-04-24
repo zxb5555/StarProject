@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load selftag %}
+{% block container %}
+    <div id="r_ad">
+<div id="index_b_hero">
+    <div class="hero-wrap" style="overflow: hidden">
+      <ul class="heros clearfix" >
+        <li class="hero" style="background-color:#241b1e"> <a href="/" target="_blank" title="第一张图的说明"> <img src="/static/images/top1.jpg" class="thumb" alt="" /> </a> </li>
+        <li class="hero" style="background-color:#241b1e"> <a href="/" target="_blank" title="第二张图的说明"> <img src="/static/images/top2.jpg" class="thumb" alt="" /> </a> </li>
+        <li class="hero" style="background-color:#241b1e"> <a href="/" target="_blank" title="第三张图的说明"> <img src="/static/images/top3.jpg" class="thumb" alt="" /> </a> </li>
+        <li class="hero" style="background-color:#241b1e"> <a href="/" target="_blank" title="第四张图的说明"> <img src="/static/images/top4.jpg" class="thumb" alt="" /> </a> </li>
+      </ul>
+    </div>
+    <div class="helper">
+      <div class="mask-left" style="background-color:#241b1e; "> </div>
+      <div class="mask-right" style="background-color:#241b1e"> </div>
+      <a href="#" class="prev icon-arrow-a-left"></a> <a href="#" class="next icon-arrow-a-right"></a> </div>
+  </div>
+</div>
+<script type="text/javascript">
+        $.foucs({ direction: 'right' });
+</script>
+<!-- 代码 结束 -->
+
+
+<div class="works cw" id="works">
+  <div class="about_title">
+    <p class="eng">show</p>
+    <span class="short_line"></span>
+    <h2>火热明星</h2>
+  </div>
+  <div id="outer">
+    <ul id="tab">
+        {% for s in star %}
+      <li>{{ s.name }}</li>
+        {% endfor %}
+    </ul>
+    <div id="content">
+        {% for s in star %}
+      <ul class="pics">
+        <li><a href="/view/{{ s.id }}"><img src="/static/{{ s|pic:1 }}"><span>{{ s|des:1 }}</span></a></li>
+        <li><a href="/view/{{ s.id }}"><img src="/static/{{ s|pic:2 }}"><span>{{ s|des:2 }}</span></a></li>
+        <li><a href="/view/{{ s.id }}"><img src="/static/{{ s|pic:3 }}"><span>{{ s|des:3 }}</span></a></li>
+        <li><a href="/view/{{ s.id }}"><img src="/static/{{ s|pic:4 }}"><span>{{ s|des:4 }}</span></a></li>
+      </ul>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="news cw" id="news">
+  <div class="about_title">
+    <p class="eng">NEWS CENTER</p>
+    <span class="short_line"></span>
+    <h2>新闻中心</h2>
+  </div>
+  <div class="articles">
+    <ul>
+        {% for a in articles %}
+      <dl>
+        <dt><a href="/article_detail/{{ a.id }}"><img src="/static/{{ a.picture }}"><i>{{ a.title }}</i></a></dt>
+        <dd class="ctitle"><a href="/">{{ a.label }}</a></dd>
+        <dd>{{ a.content|part }}</dd>
+      </dl>
+        {% endfor %}
+
+    </ul>
+  </div>
+</div>
+    {% endblock %}
+{% block footstyle %}
+    <script>
+        $("#content").children("ul").first().css('display','block')
+    </script>
+{% endblock %}

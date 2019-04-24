@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block container %}
+<div  class="mainbox">
+<div class="menu_box left">
+    <h2>明星信息<span>News center</span></h2>
+    <ul class="news_menu">
+      <li><a href="/index/#works">火热明星</a></li>
+      <li><a href="/list">明星列表</a></li>
+    </ul>
+    <div class="hot_line">
+      <p>欢迎投稿:</p>
+      <span>011-12345678</span> </div>
+  </div>
+  <div class="news_box right">
+    <h2 class="nh1"><span>您现在的位置是：<a href="/" target="_blank">网站首页</a>>><a href="/list/" target="_blank">明星一览</a></span><b>明星列表</b></h2>
+    <div class="f_box">
+      <p class="a_title">{{ star.name }}</p>
+      <p class="p_title">年龄{{ star.age }}</p>
+      <p class="p_title">生日{{ star.birthday }}</p>
+    </div>
+      <p style="font-size: 15px">{{ star.area }}</p>
+    <div style="margin-left: 60px">
+      {% for pic in pics %}
+      <img style="width: 270px;height: 250px;" src="/static/{{ pic.picture }}">
+      {% endfor %}
+    </div>
+    <div class="nextinfos">
+        <p>上一个：<a href="/view/{{ l_star.id }}">{{ l_star.name }}</a></p>
+        <p>下一个：<a href="/view/{{ n_star.id }}">{{ n_star.name }}</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

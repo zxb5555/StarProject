@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}
+    我要投稿
+{% endblock %}
+{% block style %}
+    <style>
+        html{
+            background:url("/static/images/背景3.jpg");
+        }
+        .box{
+            width: 400px;
+            margin: 80px auto;
+        }
+        input{
+            font-size: 18px;
+            height: 35px;
+            border-radius: 40%;
+            padding: 3px;
+            border: 1px solid #C6C6C6;
+            box-shadow: 0 5px 10px rgba(255, 215, 0, 0.8 );
+            margin-top: 20px;
+            text-align: center;
+        }
+        #submit{
+            font-size: 20px;
+            cursor: pointer;
+            margin-top:20px;
+            background-color: purple;
+            color: white;
+        }
+        textarea{
+            font-size: 18px;
+            width: 250px;
+            height: 100px;
+            margin: 20px;
+        }
+    #picture{
+        width: 130px;
+        box-shadow: none;
+
+    }
+    #code{
+        margin-left: 40px;
+    }
+    </style>
+{% endblock %}
+{% block container %}
+
+    <div class="box">
+        <form  method="post" enctype="multipart/form-data" style="text-align: center">
+            {% csrf_token %}
+            <p id="success" style="font-size: 20px;color: red"></p>
+            <p><input type="text" name="name" id="name" placeholder="明星姓名"></p>
+            <p><input type="text" name="age" id="age" placeholder="明星年龄"></p>
+            <p><input type="text" name="birthday" id="birthday" placeholder="明星生日(年-月-日)"></p>
+            <p><textarea name="description" id="description" placeholder="明星介绍"></textarea></p>
+            <p><span style="font-size: 20px;color: #eeeeee">明星照片:</span><input type="file" name="picture" id="picture" style="border: none"></p>
+            <p><input type="text" id="email" name="email" placeholder="请输入邮箱"></p>
+            <p><input type="text" id="code" name="code" placeholder="请输入邮箱验证码"><button type="button" id="send" style="width: 100px;height: 40px;">发送验证码</button></p>
+            <span style="color:red" id="tishi"></span>
+            <p><input type="submit" id="submit" value="点击投稿"></p>
+        </form>
+    </div>
+
+{% endblock %}
+{% block footstyle %}
+    <script src="/static/js/jquery.min.js"></script>
+<script>
+    $(
+        function () {
+            $("#send").click(
+                function () {
+                    var email = $("#email").val();
+                    $.ajax(
+                        {
+                            url:"/valid_code/",
+                            type:"post",
+                            data:{
+                                "email":email,
+                                "csrfmiddlewaretoken":"{{ csrf_token }}",
+                            },
+                            success:function (data) {
+                                var code = $("#code").val();
+                                $("#code").onblur(
+                                    function () {
+                                        if (code !== data["code"]){
+                                            $("#tishi").text("验证码不正确")
+                                        }
+                                    }
+                                );
+                                console.log(data)
+                            },
+                            error:function (error) {
+                                console.log(error)
+                            }
+                        }
+                    )
+                }
+            );
+            $("#submit").click(function () {
+                var form = new FormData();
+                var name = $("#name").val();
+                var age = $("#age").val();
+                var birthday = $("#birthday").val();
+                var description = $("#description").val();
+                var csrfmiddlewaretoken = "{{ csrf_token }}";
+                form.append("name",name);
+                form.append("age",age);
+                form.append("description",description);
+                form.append("birthday",birthday);
+                form.append("csrfmiddlewaretoken",csrfmiddlewaretoken);
+                form.append("picture",document.getElementById("picture").files[0]);
+
+                $.ajax(
+                    {
+                        url:"/register_data/",
+                        type:"post",
+                        data:form,
+                        processData:false,
+                        contentType:false,
+                        success:function (data) {
+                            state = data["state"];
+                            alert(data["data"]);
+                        },
+                        error:function (error) {
+                            alert(error)
+                        }
+                    }
+                );$(window).attr("location","/list/")
+
+            })
+        }
+    )
+</script>
+{% endblock %}
